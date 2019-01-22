@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  wordpress_db: 
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    networks:
+      - wordpress
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_ROOT_HOST: "%"
+  wordpress:
+    image: wordpress
+    depends_on: 
+      - wordpress_db
+    ports:
+      - "8000:80"
+    networks:
+      - wordpress
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db:3306
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: somewordpress
+
+networks:
+  wordpress:
+    driver: bridge 
